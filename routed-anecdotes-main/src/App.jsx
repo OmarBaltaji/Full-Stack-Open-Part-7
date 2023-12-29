@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import About from './pages/About';
 import { Routes, Route, useMatch } from 'react-router-dom';
 import Anecdote from './components/Anecdote';
+import Notification from './components/Notification';
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -53,11 +54,12 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={notification} />
 
       <Routes>
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path='/:id' element={<Anecdote anecdote={selectedAnecdote} />} />
-        <Route path='/create' element={<CreateNew addNew={addNew} />} />
+        <Route path='/create' element={<CreateNew addNew={addNew} setNotification={setNotification} />} />
         <Route path='/about' element={<About />} />
       </Routes>
       <Footer />
