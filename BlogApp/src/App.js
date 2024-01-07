@@ -6,13 +6,13 @@ import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import "./index.css";
 import Togglable from "./components/Togglable";
+import { useNotify } from "./contexts/NotificationContext";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [feedbackMessage, setFeedbackMessage] = useState(null);
-  const [feedbackClass, setFeedbackClass] = useState(null);
   const blogFormRef = useRef();
+  const notify = useNotify();
 
   useEffect(() => {
     blogService
@@ -45,12 +45,7 @@ const App = () => {
       setBlogs((oldBlogs) => [...oldBlogs, newBlog]);
     }
     blogFormRef.current.toggleVisibility();
-    setFeedbackMessage(message);
-    setFeedbackClass(className);
-    setTimeout(() => {
-      setFeedbackMessage(null);
-      setFeedbackClass(null);
-    }, 5000);
+    notify({ message, className });
   };
 
   const onLikeClicked = async (blog) => {
@@ -74,12 +69,12 @@ const App = () => {
 
   return (
     <div>
+      <Notification />
       {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>
           <button onClick={handleLogout}>Logout</button>
           <h2>blogs</h2>
-          <Notification message={feedbackMessage} className={feedbackClass} />
           <p>
             <strong>Logged in as {user.name}</strong>
           </p>
