@@ -7,18 +7,14 @@ import Notification from "./components/Notification";
 import "./index.css";
 import Togglable from "./components/Togglable";
 import { useNotify } from "./contexts/NotificationContext";
+import Navbar from "./components/Navbar";
+import BlogList from "./components/BlogList";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
   const notify = useNotify();
-
-  useEffect(() => {
-    blogService
-      .getAll()
-      .then((blogs) => setBlogs(blogs.sort((a, b) => b.likes - a.likes)));
-  }, []);
 
   useEffect(() => {
     const loggedUserInfo = localStorage.getItem("loggedUserInfo");
@@ -34,11 +30,6 @@ const App = () => {
     setUser(user);
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("loggedUserInfo");
-  };
-
   const postSubmission = (newBlog, message, className) => {
     if (newBlog) {
       newBlog = { ...newBlog, user };
@@ -48,51 +39,18 @@ const App = () => {
     notify({ message, className });
   };
 
-  const onLikeClicked = async (blog) => {
-    const updatedBlog = await blogService.update(blog);
-    setBlogs((oldBlogs) => {
-      return oldBlogs.map((blog) => {
-        if (blog.id === updatedBlog.id) {
-          return updatedBlog;
-        }
-        return blog;
-      });
-    });
-  };
-
-  const onDeleteBlog = async (id) => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
-      await blogService.deleteBlog(id);
-      setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id));
-    }
-  };
-
   return (
     <div>
       <Notification />
       {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>
-          <button onClick={handleLogout}>Logout</button>
-          <h2>blogs</h2>
-          <p>
-            <strong>Logged in as {user.name}</strong>
-          </p>
+          <Navbar user={user} setUser={setUser} />
           <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
             <BlogForm postSubmission={postSubmission} />
           </Togglable>
           <br />
-          <ul>
-            {blogs.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                onLikeClicked={onLikeClicked}
-                onDeleteBlog={onDeleteBlog}
-                user={user}
-              />
-            ))}
-          </ul>
+          <BlogList blogs={blogs} setBlogs={setBlogs} user={user} />
         </>
       )}
     </div>
