@@ -1,6 +1,8 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useMutation, useQueryClient } from "react-query";
+import { create } from "../services/blogs";
+import { useNotify } from "../contexts/NotificationContext";
 
 const BlogForm = ({ postSubmission }) => {
   const initialPropertiesValues = {
@@ -8,14 +10,26 @@ const BlogForm = ({ postSubmission }) => {
     author: "",
     url: "",
   };
+  const notify = useNotify();
+
+  const queryClient = useQueryClient();
+
+  const newBlogMutation = useMutation({
+    mutationFn: create,
+    onSuccess: (newBlog) => {
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(["blogs"], blogs.concat(newBlog))
+      postSubmission();
+      notify({ message: "Blog created successfully", className: "success" });
+    }
+  });
 
   const [blog, setBlog] = useState(initialPropertiesValues);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const newBlog = await blogService.create(blog);
-      postSubmission(newBlog, "Blog created successfully", "success");
+      newBlogMutation.mutate(blog);
       setBlog(initialPropertiesValues);
     } catch (error) {
       postSubmission(null, "Failed to create blog", "error");
