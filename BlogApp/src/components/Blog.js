@@ -54,8 +54,8 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  onLikeClicked: PropTypes.func.isRequired,
-  onDeleteBlog: PropTypes.func.isRequired,
+  onLikeClicked: PropTypes.func,
+  onDeleteBlog: PropTypes.func,
   user: PropTypes.object.isRequired,
 };
 

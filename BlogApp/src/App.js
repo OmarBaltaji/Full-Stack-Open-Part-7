@@ -11,9 +11,7 @@ import BlogList from "./components/BlogList";
 import { useNotify } from "./contexts/NotificationContext";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const notify = useNotify();
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -30,13 +28,8 @@ const App = () => {
     setUser(user);
   };
 
-  const postSubmission = (newBlog, message, className) => {
-    if (newBlog) {
-      newBlog = { ...newBlog, user };
-      setBlogs((oldBlogs) => [...oldBlogs, newBlog]);
-    }
+  const postSubmission = () => {
     blogFormRef.current.toggleVisibility();
-    notify({ message, className });
   };
 
   return (
@@ -50,7 +43,7 @@ const App = () => {
             <BlogForm postSubmission={postSubmission} />
           </Togglable>
           <br />
-          <BlogList blogs={blogs} setBlogs={setBlogs} user={user} />
+          <BlogList user={user} />
         </>
       )}
     </div>
