@@ -4,7 +4,7 @@ import Blog from "./Blog";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNotify } from "../contexts/NotificationContext";
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
   const notify = useNotify();
 
   const queryClient = useQueryClient();
@@ -70,7 +70,6 @@ const BlogList = ({ user }) => {
           blog={blog}
           onLikeClicked={onLikeClicked}
           onDeleteBlog={onDeleteBlog}
-          user={user}
         />
       ))}
     </ul>

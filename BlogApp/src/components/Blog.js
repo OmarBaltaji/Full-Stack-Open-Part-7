@@ -1,8 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { useUserValue } from "../contexts";
 
-const Blog = ({ blog, onLikeClicked, onDeleteBlog, user }) => {
+const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
   const [visible, setVisibility] = useState(false);
+  const user = useUserValue();
 
   const blogStyle = {
     paddingTop: 10,
@@ -56,7 +58,6 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   onLikeClicked: PropTypes.func,
   onDeleteBlog: PropTypes.func,
-  user: PropTypes.object.isRequired,
 };
 
 export default Blog;

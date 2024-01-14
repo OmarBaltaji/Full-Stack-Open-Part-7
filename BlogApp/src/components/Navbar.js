@@ -1,10 +1,12 @@
 import React from "react";
+import { useUserDispatch, useUserValue } from "../contexts";
 
-const Navbar = ({ setUser, user }) => {
-  
+const Navbar = () => {
+  const user = useUserValue();
+  const dispatchUser = useUserDispatch();
+
   const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("loggedUserInfo");
+    dispatchUser({ type: "remove" });
   };
 
   return (
