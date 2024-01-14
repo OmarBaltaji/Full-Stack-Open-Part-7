@@ -1,28 +1,50 @@
 import React, { useEffect } from "react";
-import blogService, { getAll } from "../services/blogs";
+import blogService, { deleteBlog, getAll, update } from "../services/blogs";
 import Blog from "./Blog";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNotify } from "../contexts/NotificationContext";
 
 const BlogList = ({ user }) => {
+  const notify = useNotify();
 
-  // const onLikeClicked = async (blog) => {
-  //   const updatedBlog = await blogService.update(blog);
-  //   setBlogs((oldBlogs) => {
-  //     return oldBlogs.map((blog) => {
-  //       if (blog.id === updatedBlog.id) {
-  //         return updatedBlog;
-  //       }
-  //       return blog;
-  //     });
-  //   });
-  // };
+  const queryClient = useQueryClient();
 
-  // const onDeleteBlog = async (id) => {
-  //   if (window.confirm("Are you sure you want to delete this blog?")) {
-  //     await blogService.deleteBlog(id);
-  //     setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id));
-  //   }
-  // };
+  const updateBlogMutation = useMutation({
+    mutationFn: update,
+    onSuccess: (updatedBlog) => {
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(["blogs"], blogs.map(blog => {
+        if (blog.id === updatedBlog.id) {
+          return updatedBlog;
+        }
+        return blog;
+      }));
+    },
+    onError: (error) => {
+      notify({ message: error.response.data.error, className: "error" });
+    }
+  });
+
+  const deleteBlogMutation = useMutation({
+    mutationFn: deleteBlog,
+    onSuccess: (deleteBlogId) => {
+      const blogs = queryClient.getQueryData(["blogs"]);
+      queryClient.setQueryData(["blogs"], blogs.filter(blog => blog.id !== deleteBlogId));
+    },
+    onError: (error) => {
+      notify({ message: error.response.data.error, className: "error" });
+    }
+  });
+
+  const onLikeClicked = async (blog) => {
+    updateBlogMutation.mutate(blog);
+  };
+
+  const onDeleteBlog = async (id) => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      deleteBlogMutation.mutate(id);
+    }
+  };
 
   const { isLoading, isError, error, data } = useQuery({
     queryKey: ["blogs"],
@@ -46,8 +68,8 @@ const BlogList = ({ user }) => {
         <Blog
           key={blog.id}
           blog={blog}
-          // onLikeClicked={onLikeClicked}
-          // onDeleteBlog={onDeleteBlog}
+          onLikeClicked={onLikeClicked}
+          onDeleteBlog={onDeleteBlog}
           user={user}
         />
       ))}
