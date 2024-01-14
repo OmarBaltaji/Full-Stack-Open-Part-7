@@ -8,12 +8,12 @@ import "./index.css";
 import Togglable from "./components/Togglable";
 import Navbar from "./components/Navbar";
 import BlogList from "./components/BlogList";
+import { useNotify } from "./contexts/NotificationContext";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-  const [feedbackMessage, setFeedbackMessage] = useState(null);
-  const [feedbackClass, setFeedbackClass] = useState(null);
+  const notify = useNotify();
   const blogFormRef = useRef();
 
   useEffect(() => {
@@ -36,16 +36,12 @@ const App = () => {
       setBlogs((oldBlogs) => [...oldBlogs, newBlog]);
     }
     blogFormRef.current.toggleVisibility();
-    setFeedbackMessage(message);
-    setFeedbackClass(className);
-    setTimeout(() => {
-      setFeedbackMessage(null);
-      setFeedbackClass(null);
-    }, 5000);
+    notify({ message, className });
   };
 
   return (
     <div>
+      <Notification />
       {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>
