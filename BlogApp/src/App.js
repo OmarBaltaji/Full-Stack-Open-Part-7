@@ -6,15 +6,15 @@ import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import "./index.css";
 import Togglable from "./components/Togglable";
-import { useNotify } from "./contexts/NotificationContext";
 import Navbar from "./components/Navbar";
 import BlogList from "./components/BlogList";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
+  const [feedbackMessage, setFeedbackMessage] = useState(null);
+  const [feedbackClass, setFeedbackClass] = useState(null);
   const blogFormRef = useRef();
-  const notify = useNotify();
 
   useEffect(() => {
     const loggedUserInfo = localStorage.getItem("loggedUserInfo");
@@ -36,12 +36,16 @@ const App = () => {
       setBlogs((oldBlogs) => [...oldBlogs, newBlog]);
     }
     blogFormRef.current.toggleVisibility();
-    notify({ message, className });
+    setFeedbackMessage(message);
+    setFeedbackClass(className);
+    setTimeout(() => {
+      setFeedbackMessage(null);
+      setFeedbackClass(null);
+    }, 5000);
   };
 
   return (
     <div>
-      <Notification />
       {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>

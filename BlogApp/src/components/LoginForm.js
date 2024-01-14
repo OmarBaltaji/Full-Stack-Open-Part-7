@@ -1,15 +1,15 @@
 import { useState } from "react";
 import loginService from "../services/login";
 import PropTypes from "prop-types";
+import Notification from "./Notification";
 import blogService from "../services/blogs";
-import { useNotify } from "../contexts/NotificationContext";
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
-  const notify = useNotify();
+  const [message, setMessage] = useState("");
 
   const handleChange = (target, field) => {
     setCredentials((oldCredentials) => ({
@@ -26,12 +26,16 @@ const LoginForm = ({ postLogin }) => {
       localStorage.setItem("loggedUserInfo", JSON.stringify(user));
       blogService.setToken(user.token);
     } catch (error) {
-      notify({ message: error.response.data.error, className: "error" });
+      setMessage(error.response.data.error);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
   return (
     <>
+      {message && <Notification message={message} className="error" />}
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
