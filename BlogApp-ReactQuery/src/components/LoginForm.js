@@ -1,6 +1,5 @@
 import { useState } from "react";
 import loginService from "../services/login";
-import PropTypes from "prop-types";
 import blogService from "../services/blogs";
 import { useNotify } from "../contexts/NotificationContext";
 import { useUserDispatch } from "../contexts";

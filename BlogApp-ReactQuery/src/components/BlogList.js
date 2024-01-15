@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import blogService, { deleteBlog, getAll, update } from "../services/blogs";
+import React from "react";
+import { deleteBlog, getAll, update } from "../services/blogs";
 import Blog from "./Blog";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNotify } from "../contexts/NotificationContext";
