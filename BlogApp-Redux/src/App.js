@@ -48,7 +48,7 @@ const App = () => {
       {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>
-          <Navbar />
+          <Navbar user={user} setUser={setUser} />
           <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
             <BlogForm postSubmission={postSubmission} />
           </Togglable>

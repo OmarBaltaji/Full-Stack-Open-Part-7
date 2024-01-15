@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
-const Navbar = () => {
-  const [user, setUser] = useState(null);
-
+const Navbar = ({ user, setUser }) => {
   const handleLogout = () => {
-    //
-  };
+    setUser(null);
+    localStorage.removeItem("loggedUserInfo");
+  }
 
   return (
     <>
