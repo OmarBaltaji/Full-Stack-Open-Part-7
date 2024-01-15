@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import blogService from "../services/blogs";
 import Blog from "./Blog";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { initialBlogs } from "../reducers/blogReducer";
+import { initialBlogs, likeBlog, deleteBlog } from "../reducers/blogReducer";
 
 const BlogList = ({ user }) => {
   const blogs = useSelector(state => state.blogs);
@@ -14,21 +13,12 @@ const BlogList = ({ user }) => {
   }, []);
 
   const onLikeClicked = async (blog) => {
-    const updatedBlog = await blogService.update(blog);
-    // setBlogs((oldBlogs) => {
-    //   return oldBlogs.map(blog => {
-    //     if (blog.id === updatedBlog.id) {
-    //       return updatedBlog;
-    //     }
-    //     return blog;
-    //   });
-    // });
+    dispatch(likeBlog(blog));
   };
 
   const onDeleteBlog = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
-      await blogService.deleteBlog(id);
-      // setBlogs((oldBlogs) => oldBlogs.filter(blog => blog.id !== id));
+      dispatch(deleteBlog(id));
     }
   };
 
