@@ -1,8 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
-const Blog = ({ user, blog, onLikeClicked, onDeleteBlog }) => {
+const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
   const [visible, setVisibility] = useState(false);
+  const user = useSelector(state => state.user);
 
   const blogStyle = {
     paddingTop: 10,

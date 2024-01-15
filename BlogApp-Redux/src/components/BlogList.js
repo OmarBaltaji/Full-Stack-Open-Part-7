@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { initialBlogs, likeBlog, deleteBlog } from "../reducers/blogReducer";
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
   const blogs = useSelector(state => state.blogs);
   const dispatch = useDispatch();
   
@@ -30,7 +30,6 @@ const BlogList = ({ user }) => {
           blog={blog}
           onLikeClicked={onLikeClicked}
           onDeleteBlog={onDeleteBlog}
-          user={user}
         />
       ))}
     </ul>

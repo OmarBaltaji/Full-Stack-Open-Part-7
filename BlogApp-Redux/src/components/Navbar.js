@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../reducers/userReducer";
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = () => {
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("loggedUserInfo");
+    dispatch(removeUser());
   }
 
   return (

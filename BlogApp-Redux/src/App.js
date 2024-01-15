@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
@@ -7,24 +7,22 @@ import "./index.css";
 import Togglable from "./components/Togglable";
 import Navbar from "./components/Navbar";
 import BlogList from "./components/BlogList";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./reducers/userReducer";
 
 const App = () => {
   const blogFormRef = useRef();
-  const [user, setUser] = useState(null);
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const loggedUserInfo = localStorage.getItem("loggedUserInfo");
-
-    if (loggedUserInfo) {
-      const userInfo = JSON.parse(loggedUserInfo);
-      setUser(userInfo);
-      blogService.setToken(userInfo.token);
+    if (user) {
+      blogService.setToken(user.token);
+    } else {
+      dispatch(getUser());
     }
-  }, []);
-
-  const postLogin = (user) => {
-    setUser(user);
-  }
+    blogService.setToken(user?.token);
+  }, [user]);
 
   const postSubmission = () => {
     blogFormRef.current.toggleVisibility();
@@ -33,15 +31,15 @@ const App = () => {
   return (
     <div>
       <Notification />
-      {!user && <LoginForm postLogin={postLogin} />}
+      {!user && <LoginForm />}
       {user && (
         <>
-          <Navbar user={user} setUser={setUser} />
+          <Navbar />
           <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
             <BlogForm postSubmission={postSubmission} />
           </Togglable>
           <br />
-          <BlogList user={user} />
+          <BlogList />
         </>
       )}
     </div>
