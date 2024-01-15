@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
-import blogService, { deleteBlog, getAll, update } from "../services/blogs";
+import blogService from "../services/blogs";
 import Blog from "./Blog";
 
-const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
+const BlogList = ({ blogs, setBlogs, user }) => {
 
   const onLikeClicked = async (blog) => {
-    //
+    const updatedBlog = await blogService.update(blog);
+    setBlogs((oldBlogs) => {
+      return oldBlogs.map(blog => {
+        if (blog.id === updatedBlog.id) {
+          return updatedBlog;
+        }
+        return blog;
+      });
+    });
   };
 
   const onDeleteBlog = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
-      //
+      await blogService.deleteBlog(id);
+      setBlogs((oldBlogs) => oldBlogs.filter(blog => blog.id !== id));
     }
   };
 
@@ -23,6 +31,7 @@ const BlogList = () => {
           blog={blog}
           onLikeClicked={onLikeClicked}
           onDeleteBlog={onDeleteBlog}
+          user={user}
         />
       ))}
     </ul>

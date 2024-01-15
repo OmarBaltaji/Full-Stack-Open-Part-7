@@ -10,22 +10,42 @@ import BlogList from "./components/BlogList";
 
 const App = () => {
   const blogFormRef = useRef();
+  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (user) {
-      blogService.setToken(user.token);
-    }
-  }, [user]);
+    blogService.getAll().then(blogs =>
+      setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
+    )
+  }, []);
 
-  const postSubmission = () => {
+  useEffect(() => {
+    const loggedUserInfo = localStorage.getItem("loggedUserInfo");
+
+    if (loggedUserInfo) {
+      const userInfo = JSON.parse(loggedUserInfo);
+      setUser(userInfo);
+      blogService.setToken(userInfo.token);
+    }
+  }, []);
+
+  const postLogin = (user) => {
+    setUser(user);
+  }
+
+ 
+  const postSubmission = (newBlog, message, className) => {
+    if (newBlog) {
+      newBlog = { ...newBlog, user };
+      setBlogs(oldBlogs => [...oldBlogs, newBlog]);
+    }
     blogFormRef.current.toggleVisibility();
-  };
+  }
 
   return (
     <div>
       <Notification />
-      {!user && <LoginForm />}
+      {!user && <LoginForm postLogin={postLogin} />}
       {user && (
         <>
           <Navbar />
@@ -33,7 +53,7 @@ const App = () => {
             <BlogForm postSubmission={postSubmission} />
           </Togglable>
           <br />
-          <BlogList />
+          <BlogList blogs={blogs} setBlogs={setBlogs} user={user} />
         </>
       )}
     </div>

@@ -19,6 +19,8 @@ const LoginForm = ({ postLogin }) => {
     event.preventDefault();
     try {
       const user = await loginService.login(credentials);
+      postLogin(user);
+      localStorage.setItem("loggedUserInfo", JSON.stringify(user));
       blogService.setToken(user.token);
     } catch (error) {
       //

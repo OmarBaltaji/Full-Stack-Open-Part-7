@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import blogService from "../services/blogs";
 
 const BlogForm = ({ postSubmission }) => {
   const initialPropertiesValues = {
@@ -13,12 +14,13 @@ const BlogForm = ({ postSubmission }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const newBlog = await blogService.create(blog);
+      postSubmission(newBlog, "Blog created successfully", "success");
       setBlog(initialPropertiesValues);
     } catch (error) {
       postSubmission(null, "Failed to create blog", "error");
     }
-  };
-
+  }
   const handleChange = (target, field) => {
     setBlog((oldBlog) => ({ ...oldBlog, [field]: target.value }));
   };
