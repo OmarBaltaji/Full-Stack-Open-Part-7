@@ -12,7 +12,7 @@ const App = () => {
   const blogFormRef = useRef();
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
-
+ 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a, b) => b.likes - a.likes) )
@@ -34,7 +34,7 @@ const App = () => {
   }
 
  
-  const postSubmission = (newBlog, message, className) => {
+  const postSubmission = (newBlog) => {
     if (newBlog) {
       newBlog = { ...newBlog, user };
       setBlogs(oldBlogs => [...oldBlogs, newBlog]);

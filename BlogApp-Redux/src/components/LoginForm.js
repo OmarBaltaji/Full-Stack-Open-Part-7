@@ -1,8 +1,12 @@
 import { useState } from "react";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
+import { useDispatch } from "react-redux";
+import { notify } from "../reducers/notificationReducer";
 
 const LoginForm = ({ postLogin }) => {
+  const dispatch = useDispatch();
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -23,7 +27,7 @@ const LoginForm = ({ postLogin }) => {
       localStorage.setItem("loggedUserInfo", JSON.stringify(user));
       blogService.setToken(user.token);
     } catch (error) {
-      //
+      dispatch(notify({ message: error.response.data.error, className: "error" }));
     }
   };
 

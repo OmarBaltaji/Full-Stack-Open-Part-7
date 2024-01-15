@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import blogService from "../services/blogs";
+import { notify } from "../reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const BlogForm = ({ postSubmission }) => {
   const initialPropertiesValues = {
@@ -9,16 +11,19 @@ const BlogForm = ({ postSubmission }) => {
     url: "",
   };
 
+  const dispatch = useDispatch();
   const [blog, setBlog] = useState(initialPropertiesValues);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const newBlog = await blogService.create(blog);
-      postSubmission(newBlog, "Blog created successfully", "success");
+      postSubmission(newBlog);
+      dispatch(notify({ message: "Blog created successfully", className: "success" }));
       setBlog(initialPropertiesValues);
     } catch (error) {
-      postSubmission(null, "Failed to create blog", "error");
+      postSubmission(null);
+      dispatch(notify({ message: "Failed to create blog", className: "error" }));
     }
   }
   const handleChange = (target, field) => {
