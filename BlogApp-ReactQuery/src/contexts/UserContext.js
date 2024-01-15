@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
+import loginService from "../services/login";
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -7,7 +8,7 @@ const userReducer = (state, action) => {
       return action.payload;
     case "remove":
       localStorage.removeItem("loggedUserInfo");
-      return null;
+      return action.payload;
     default:
       return state;
   }
@@ -38,7 +39,11 @@ export const useUserDispatch = () => {
   const valueAndDispatch = useContext(UserContext);
   const dispatch = valueAndDispatch[1];
 
-  return (payload) => {
-    dispatch({ type: payload.type, payload: payload?.user});
+  return async (payload) => {
+    let user = null;
+    if (payload?.credentials) {
+      user = await loginService.login(payload.credentials);
+    }
+    dispatch({ type: payload.type, payload: user});
   }
 }

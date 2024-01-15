@@ -1,6 +1,4 @@
 import { useState } from "react";
-import loginService from "../services/login";
-import blogService from "../services/blogs";
 import { useNotify } from "../contexts/NotificationContext";
 import { useUserDispatch } from "../contexts";
 
@@ -22,9 +20,7 @@ const LoginForm = ({ postLogin }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await loginService.login(credentials);
-      dispatchUser({ type: "set",  user });
-      blogService.setToken(user.token);
+      dispatchUser({ type: "set",  credentials });
     } catch (error) {
       notify({ message: error.response.data.error, className: "error" });
     }
