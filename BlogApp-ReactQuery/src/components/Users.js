@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { getAll } from "../services/users";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const { isError, isLoading, error, data } = useQuery({
@@ -25,7 +26,7 @@ const Users = () => {
       </div>
       {data.map(user =>
         <div key={user.id} className="user">
-          <span className="mr-6">{user.name}</span>
+          <Link to={`/users/${user.id}`} state={user} className="mr-6">{user.name}</Link>
           <span>{user.blogs.length}</span>
         </div>
       )}

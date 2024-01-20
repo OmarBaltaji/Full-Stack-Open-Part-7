@@ -12,9 +12,17 @@ const Navbar = () => {
   return (
     <>
       {user && 
-        <div className="navbar">
-          <button onClick={handleLogout}>Logout</button>
-        </div>
+        <>
+          <div className="navbar">
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+          <div className="container">
+            <h2>blogs</h2>
+            <p>
+              <strong>Logged in as {user.name}</strong>
+            </p>
+          </div>
+        </>
       }
     </>
   )

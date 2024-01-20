@@ -18,10 +18,6 @@ const Home = () => {
       {!user && <LoginForm />}
       {user && (
         <>
-          <h2>blogs</h2>
-          <p>
-            <strong>Logged in as {user.name}</strong>
-          </p>
           <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
             <BlogForm postSubmission={postSubmission} />
           </Togglable>

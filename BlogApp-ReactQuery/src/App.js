@@ -6,6 +6,7 @@ import { useUserValue } from "./contexts";
 import { Routes, Route } from "react-router-dom";
 import Users from "./components/Users";
 import Home from "./components/Home";
+import User from "./components/User";
 
 import "./index.css";
 
@@ -25,6 +26,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/users" element={<Users />} /> 
+        <Route path="/users/:id" element={<User />} /> 
       </Routes>
     </div>
   );

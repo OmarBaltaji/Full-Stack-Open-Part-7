@@ -1,4 +1,4 @@
-body, ul, h1, h4 {
+body, ul, h1, h2, h4 {
   padding: 0;
   margin: 0;
 }
@@ -26,11 +26,13 @@ body, ul, h1, h4 {
 
 .user {
   display: flex;
+  margin-bottom: 10px;
 }
 
 .users-header {
   display: flex;
   align-items: end;
+  margin-bottom: 10px;
 }
 
 .navbar {
@@ -46,4 +48,8 @@ body, ul, h1, h4 {
 
 .mb-2 {
   margin-bottom: 2rem;
+}
+
+.pl-40 {
+  padding-left: 40px;
 }
