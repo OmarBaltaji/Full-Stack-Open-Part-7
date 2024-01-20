@@ -1,16 +1,15 @@
 import { useEffect, useRef } from "react";
 import blogService from "./services/blogs";
-import LoginForm from "./components/LoginForm";
-import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
-import "./index.css";
-import Togglable from "./components/Togglable";
 import Navbar from "./components/Navbar";
-import BlogList from "./components/BlogList";
 import { useUserValue } from "./contexts";
+import { Routes, Route } from "react-router-dom";
+import Users from "./components/Users";
+import Home from "./components/Home";
+
+import "./index.css";
 
 const App = () => {
-  const blogFormRef = useRef();
   const user = useUserValue();
 
   useEffect(() => {
@@ -19,24 +18,14 @@ const App = () => {
     }
   }, [user]);
 
-  const postSubmission = () => {
-    blogFormRef.current.toggleVisibility();
-  };
-
   return (
     <div>
       <Notification />
-      {!user && <LoginForm />}
-      {user && (
-        <>
-          <Navbar />
-          <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
-            <BlogForm postSubmission={postSubmission} />
-          </Togglable>
-          <br />
-          <BlogList />
-        </>
-      )}
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} /> 
+        <Route path="/users" element={<Users />} /> 
+      </Routes>
     </div>
   );
 };

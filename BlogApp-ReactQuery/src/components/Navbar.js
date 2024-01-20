@@ -11,11 +11,11 @@ const Navbar = () => {
 
   return (
     <>
-      <button onClick={handleLogout}>Logout</button>
-      <h2>blogs</h2>
-      <p>
-        <strong>Logged in as {user.name}</strong>
-      </p>
+      {user && 
+        <div className="navbar">
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      }
     </>
   )
 }
