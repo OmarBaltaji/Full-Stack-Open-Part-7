@@ -12,7 +12,6 @@ const CommentForm = () => {
   const addCommentMutation = useMutation({
     mutationFn: () => addComment(id, comment),
     onSuccess: (updatedBlog) => {
-      console.log(updatedBlog);
       queryClient.setQueryData(["blog"], updatedBlog);
       setComment("");
     }
