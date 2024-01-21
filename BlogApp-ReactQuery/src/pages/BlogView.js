@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { getBlog, update } from "../services/blogs";
 import { useNotify } from "../contexts";
+import CommentForm from "../components/CommentForm";
 
 const BlogView = () => {
   const params = useParams();
-  const [blog, setBlog] = useState(null);
   const notify = useNotify();
+  const queryClient = useQueryClient();
 
   const updateBlogMutation = useMutation({
     mutationFn: update,
     onSuccess: (updatedBlog) => {
-      setBlog(updatedBlog);
+      queryClient.setQueryData(["blog"], updatedBlog)
     },
     onError: (error) => {
       notify({ message: error.response.data.error, className: "error" });
     }
   });
 
-  useEffect(() => {
-    getBlog(params.id).then(data => {
-      setBlog(data);
-    });
-  }, []);
+  const { isError, isLoading, error, data } = useQuery({
+    queryKey: ["blog"],
+    queryFn: () => getBlog(params.id),
+    refetchOnWindowFocus: false,
+  });
 
   const detailsStyle = {
     marginBottom: "7px",
@@ -34,9 +35,15 @@ const BlogView = () => {
     updateBlogMutation.mutate(updatedBlog);  
   };
 
-  if (!blog) {
-    return null;
+  if (isLoading) {
+    return <div className="container">Loading blog...</div>;    
   }
+
+  if (isError) {
+    return <div className="container">An error occurred {error.message}</div>;
+  }
+
+  const blog = data;
 
   return (
     <div className="container">
@@ -49,15 +56,14 @@ const BlogView = () => {
         <button onClick={handleLike}>like</button>
       </div>
       <div>Added by {blog?.user?.name}</div>
+      <h3>comments</h3>
+      <CommentForm />
       {(blog?.comments && blog?.comments.length > 0) && 
-        <>
-          <h3>comments</h3>
-          <ul className="pl-40">
-            {blog?.comments.map(comment =>
-              <li key={`${blog.id}-${comment}`}>{comment}</li>
-            )}
-          </ul>
-        </>
+        <ul className="pl-40">
+          {blog?.comments.map(comment =>
+            <li key={`${blog.id}-${comment}`}>{comment}</li>
+          )}
+        </ul>
       }
     </div>
   )
