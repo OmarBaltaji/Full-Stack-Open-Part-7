@@ -49,13 +49,15 @@ const BlogView = () => {
         <button onClick={handleLike}>like</button>
       </div>
       <div>Added by {blog?.user?.name}</div>
-      <h3>comments</h3>
-      {blog?.comments && 
-        <ul className="pl-40">
-          {blog?.comments.map(comment =>
-            <li key={`${blog.id}-${comment}`}>{comment}</li>
-          )}
-        </ul>
+      {(blog?.comments && blog?.comments.length > 0) && 
+        <>
+          <h3>comments</h3>
+          <ul className="pl-40">
+            {blog?.comments.map(comment =>
+              <li key={`${blog.id}-${comment}`}>{comment}</li>
+            )}
+          </ul>
+        </>
       }
     </div>
   )
