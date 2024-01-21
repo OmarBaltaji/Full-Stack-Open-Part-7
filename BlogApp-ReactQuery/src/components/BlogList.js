@@ -9,22 +9,6 @@ const BlogList = () => {
 
   const queryClient = useQueryClient();
 
-  const updateBlogMutation = useMutation({
-    mutationFn: update,
-    onSuccess: (updatedBlog) => {
-      const blogs = queryClient.getQueryData(["blogs"]);
-      queryClient.setQueryData(["blogs"], blogs.map(blog => {
-        if (blog.id === updatedBlog.id) {
-          return updatedBlog;
-        }
-        return blog;
-      }));
-    },
-    onError: (error) => {
-      notify({ message: error.response.data.error, className: "error" });
-    }
-  });
-
   const deleteBlogMutation = useMutation({
     mutationFn: deleteBlog,
     onSuccess: (deleteBlogId) => {
@@ -35,10 +19,6 @@ const BlogList = () => {
       notify({ message: error.response.data.error, className: "error" });
     }
   });
-
-  const onLikeClicked = async (blog) => {
-    updateBlogMutation.mutate(blog);
-  };
 
   const onDeleteBlog = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
@@ -68,7 +48,6 @@ const BlogList = () => {
         <Blog
           key={blog.id}
           blog={blog}
-          onLikeClicked={onLikeClicked}
           onDeleteBlog={onDeleteBlog}
         />
       ))}

@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import LoginForm from "./LoginForm";
-import BlogForm from "./BlogForm";
-import Togglable from "./Togglable";
-import BlogList from "./BlogList";
+import LoginForm from "../components/LoginForm";
+import BlogForm from "../components/BlogForm";
+import Togglable from "../components/Togglable";
+import BlogList from "../components/BlogList";
 import { useUserValue } from "../contexts";
 
 const Home = () => {

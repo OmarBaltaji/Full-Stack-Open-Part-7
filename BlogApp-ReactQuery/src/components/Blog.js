@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useUserValue } from "../contexts";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
-  const [visible, setVisibility] = useState(false);
   const user = useUserValue();
 
   const blogStyle = {
@@ -15,40 +15,15 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
     marginBottom: 5,
   };
 
-  const detailsStyle = {
-    marginBottom: "7px",
-  };
-
-  const handleLike = async () => {
-    blog = { ...blog, likes: blog.likes + 1, user: blog.user.id };
-    onLikeClicked(blog);
-  };
-
   return (
     <div style={blogStyle} className="blog">
-      <b style={{ marginRight: "10px" }}>
-        {blog.title} {blog.author}
-      </b>
-      <button
-        style={{ marginRight: "10px" }}
-        onClick={() => setVisibility(!visible)}
-      >
-        {visible ? "Hide" : "View"}
-      </button>
+      <Link to={`/blogs/${blog.id}`} > 
+        <b style={{ marginRight: "10px" }}>
+          {blog.title} {blog.author}
+        </b>
+      </Link>
       {blog?.user?.username === user?.username && (
         <button onClick={() => onDeleteBlog(blog.id)}>Delete</button>
-      )}
-      {visible && (
-        <div>
-          <div style={detailsStyle}>
-            <a href={blog.url}>{blog.url}</a>
-          </div>
-          <div style={detailsStyle}>
-            <span className="blog-likes">{blog.likes}</span>{" "}
-            <button onClick={handleLike}>like</button>
-          </div>
-          <div>{blog?.user?.name}</div>
-        </div>
       )}
     </div>
   );
