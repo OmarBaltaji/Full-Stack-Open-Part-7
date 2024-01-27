@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 import blogService from "./services/blogs";
 import Notification from "./components/Notification";
-import Navbar from "./components/Navbar";
+import AppNavbar from "./components/Navbar";
 import { useUserValue } from "./contexts";
 import { Routes, Route } from "react-router-dom";
 import Users from "./pages/Users";
 import Home from "./pages/Home";
 import User from "./pages/User";
 import BlogView from "./pages/BlogView";
-
-import "./index.css";
 
 const App = () => {
   const user = useUserValue();
@@ -23,7 +21,7 @@ const App = () => {
   return (
     <div>
       <Notification />
-      <Navbar />
+      <AppNavbar />
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/users" element={<Users />} /> 

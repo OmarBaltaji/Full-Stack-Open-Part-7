@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { addComment } from "../services/blogs";
 import { useParams } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
 
 const CommentForm = () => {
   const [comment, setComment] = useState("");
@@ -23,10 +24,10 @@ const CommentForm = () => {
   }
 
   return (
-    <form onSubmit={submitComment} className="mb-2">
-      <input value={comment} onChange={({ target }) => setComment(target.value)} />
-      <button type="submit">add comment</button>
-    </form>
+    <Form onSubmit={submitComment} className="w-50">
+      <Form.Control className="mb-3" value={comment} onChange={({ target }) => setComment(target.value)} />
+      <Button variant="primary" type="submit">Comment</Button>
+    </Form>
   )
 }
 

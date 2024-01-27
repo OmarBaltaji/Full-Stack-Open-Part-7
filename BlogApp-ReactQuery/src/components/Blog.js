@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useUserValue } from "../contexts";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
   const user = useUserValue();
@@ -23,7 +24,7 @@ const Blog = ({ blog, onLikeClicked, onDeleteBlog }) => {
         </b>
       </Link>
       {blog?.user?.username === user?.username && (
-        <button onClick={() => onDeleteBlog(blog.id)}>Delete</button>
+        <Button variant="danger" onClick={() => onDeleteBlog(blog.id)}>Delete</Button>
       )}
     </div>
   );

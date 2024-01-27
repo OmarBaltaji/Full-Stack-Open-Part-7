@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNotify } from "../contexts/NotificationContext";
 import { useUserDispatch } from "../contexts";
+import { Button } from "react-bootstrap";
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -49,9 +50,9 @@ const LoginForm = ({ postLogin }) => {
             onChange={({ target }) => handleChange(target, "password")}
           />
         </div>
-        <button id="login-button" type="submit">
+        <Button variant="primary" id="login-button" type="submit">
           Login
-        </button>
+        </Button>
       </form>
     </>
   );

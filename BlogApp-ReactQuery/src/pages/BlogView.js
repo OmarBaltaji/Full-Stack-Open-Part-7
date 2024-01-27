@@ -4,6 +4,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 import { getBlog, update } from "../services/blogs";
 import { useNotify } from "../contexts";
 import CommentForm from "../components/CommentForm";
+import { Button, Container } from "react-bootstrap";
 
 const BlogView = () => {
   const params = useParams();
@@ -26,46 +27,44 @@ const BlogView = () => {
     refetchOnWindowFocus: false,
   });
 
-  const detailsStyle = {
-    marginBottom: "7px",
-  };
-
   const handleLike = async () => {
     const updatedBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id };
     updateBlogMutation.mutate(updatedBlog);  
   };
 
   if (isLoading) {
-    return <div className="container">Loading blog...</div>;    
+    return <Container className="container">Loading blog...</Container>;    
   }
 
   if (isError) {
-    return <div className="container">An error occurred {error.message}</div>;
+    return <Container className="container">An error occurred {error.message}</Container>;
   }
 
   const blog = data;
 
   return (
-    <div className="container">
-      <h2 className="mb-1">{blog.title}</h2>
-      <div style={detailsStyle}>
-        <a href={blog.url}>{blog.url}</a>
+    <Container className="mt-4">
+      <div className="mb-5">
+        <h2 className="mb-3">{blog.title}</h2>
+        <div className="mb-3">
+          <a href={blog.url}>{blog.url}</a>
+        </div>
+        <div className="mb-3">
+          <span className="blog-likes me-3">{blog.likes} Likes</span>{" "}
+          <Button variant="secondary" onClick={handleLike}>Like</Button>
+        </div>
+        <div>Added by {blog?.user?.name}</div>
       </div>
-      <div style={detailsStyle}>
-        <span className="blog-likes">{blog.likes} Likes</span>{" "}
-        <button onClick={handleLike}>like</button>
-      </div>
-      <div>Added by {blog?.user?.name}</div>
-      <h3>comments</h3>
+      <h3>Comments</h3>
       <CommentForm />
       {(blog?.comments && blog?.comments.length > 0) && 
-        <ul className="pl-40">
+        <ul className="ps-3 mt-4">
           {blog?.comments.map(comment =>
             <li key={`${blog.id}-${comment}`}>{comment}</li>
           )}
         </ul>
       }
-    </div>
+    </Container>
   )
 }
 

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useMutation, useQueryClient } from "react-query";
 import { create } from "../services/blogs";
 import { useNotify } from "../contexts/NotificationContext";
+import { Button, Form } from "react-bootstrap";
 
 const BlogForm = ({ postSubmission }) => {
   const initialPropertiesValues = {
@@ -45,41 +46,41 @@ const BlogForm = ({ postSubmission }) => {
   };
 
   return (
-    <>
+    <div className="mt-3 w-50">
       <h3>Create new blog</h3>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>title</label>
-          <input
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
             id="blog-title"
             name="title"
             value={blog.title}
             onChange={({ target }) => handleChange(target, "title")}
           />
-        </div>
-        <div>
-          <label>author</label>
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Author</Form.Label>
+          <Form.Control
             id="blog-author"
             name="author"
             value={blog.author}
             onChange={({ target }) => handleChange(target, "author")}
           />
-        </div>
-        <div>
-          <label>url</label>
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Url</Form.Label>
+          <Form.Control
             id="blog-url"
             name="url"
             value={blog.url}
             onChange={({ target }) => handleChange(target, "url")}
           />
-        </div>
-        <button id="blog-submit-btn" type="submit">
+        </Form.Group>
+        <Button variant="primary" className="mb-3" type="submit">
           Create
-        </button>
-      </form>
-    </>
+        </Button>
+      </Form>
+    </div>
   );
 };
 

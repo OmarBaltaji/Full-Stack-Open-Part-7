@@ -4,6 +4,7 @@ import BlogForm from "../components/BlogForm";
 import Togglable from "../components/Togglable";
 import BlogList from "../components/BlogList";
 import { useUserValue } from "../contexts";
+import { Container } from "react-bootstrap";
 
 const Home = () => {
   const blogFormRef = useRef();
@@ -14,7 +15,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container">
+    <Container>
       {!user && <LoginForm />}
       {user && (
         <>
@@ -25,7 +26,7 @@ const Home = () => {
           <BlogList />
         </>
       )}
-    </div>
+    </Container>
   )
 }
 
