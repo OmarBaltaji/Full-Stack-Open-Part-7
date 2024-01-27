@@ -4,7 +4,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 import { getBlog, update } from "../services/blogs";
 import { useNotify } from "../contexts";
 import CommentForm from "../components/CommentForm";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, ListGroup, ListGroupItem } from "react-bootstrap";
 
 const BlogView = () => {
   const params = useParams();
@@ -43,7 +43,7 @@ const BlogView = () => {
   const blog = data;
 
   return (
-    <Container className="mt-4">
+    <Container>
       <div className="mb-5">
         <h2 className="mb-3">{blog.title}</h2>
         <div className="mb-3">
@@ -55,14 +55,14 @@ const BlogView = () => {
         </div>
         <div>Added by {blog?.user?.name}</div>
       </div>
-      <h3>Comments</h3>
+      <h3 className="mb-3">Comments</h3>
       <CommentForm />
       {(blog?.comments && blog?.comments.length > 0) && 
-        <ul className="ps-3 mt-4">
+        <ListGroup className="mt-4">
           {blog?.comments.map(comment =>
-            <li key={`${blog.id}-${comment}`}>{comment}</li>
+            <ListGroupItem className="p-3" key={`${blog.id}-${comment}`}>{comment}</ListGroupItem>
           )}
-        </ul>
+        </ListGroup>
       }
     </Container>
   )

@@ -15,7 +15,7 @@ const AppNavbar = () => {
     <>
       {user && 
         <>
-          <Navbar expand="lg" bg="light">
+          <Navbar expand="lg" bg="light" className="mb-4">
             <Navbar.Brand className="ps-3">Blog App</Navbar.Brand>
             <Navbar.Toggle aria-controls='responsive-navbar-nav' />
             <Navbar.Collapse id='responsive-navbar-nav' className='ps-3 ps-lg-0'>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Container, ListGroup, ListGroupItem } from "react-bootstrap";
 import { useLocation } from "react-router";
 
 const User = () => {
@@ -9,17 +10,17 @@ const User = () => {
   }
   
   return (
-    <div className="container">
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul className="pl-40">
+    <Container>
+      <h2 className="mb-4">{user.name}</h2>
+      <h3 className="text-decoration-underline mb-3">Added blogs</h3>
+      <ListGroup className="w-75">
         {user.blogs.map(blog => 
-          <li key={blog.id}>
+          <ListGroupItem key={blog.id} className="p-3">
             {blog.title}
-          </li>
+          </ListGroupItem>
         )}
-      </ul>
-    </div>
+      </ListGroup>
+    </Container>
   )
 }
 

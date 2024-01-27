@@ -46,7 +46,7 @@ const BlogForm = ({ postSubmission }) => {
   };
 
   return (
-    <div className="mt-3 w-50">
+    <div className="w-50">
       <h3>Create new blog</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
