@@ -20,8 +20,8 @@ const App = () => {
 
   return (
     <div>
-      <Notification />
       <AppNavbar />
+      <Notification />
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/users" element={<Users />} /> 

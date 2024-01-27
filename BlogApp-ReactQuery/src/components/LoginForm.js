@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNotify } from "../contexts/NotificationContext";
 import { useUserDispatch } from "../contexts";
-import { Button } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 
 const LoginForm = ({ postLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -23,38 +23,38 @@ const LoginForm = ({ postLogin }) => {
     try {
       dispatchUser({ type: "set",  credentials });
     } catch (error) {
-      notify({ message: error.response.data.error, className: "error" });
+      notify({ message: error.response.data.error, className: "danger" });
     }
   };
 
   return (
-    <>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>username</label>
-          <input
+    <Container className="mt-5 w-50">
+      <h2 className="mb-4">Log in to application</h2>
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
             id="username"
             name="username"
             value={credentials.username}
             onChange={({ target }) => handleChange(target, "username")}
           />
-        </div>
-        <div>
-          <label>password</label>
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             id="password"
             type="password"
             name="password"
             value={credentials.password}
             onChange={({ target }) => handleChange(target, "password")}
           />
-        </div>
-        <Button variant="primary" id="login-button" type="submit">
+        </Form.Group>
+        <Button variant="primary" type="submit">
           Login
         </Button>
-      </form>
-    </>
+      </Form>
+    </Container>
   );
 };
 

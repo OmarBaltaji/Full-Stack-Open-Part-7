@@ -17,7 +17,7 @@ const BlogView = () => {
       queryClient.setQueryData(["blog"], updatedBlog)
     },
     onError: (error) => {
-      notify({ message: error.response.data.error, className: "error" });
+      notify({ message: error.response.data.error, className: "danger" });
     }
   });
 

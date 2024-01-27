@@ -3,6 +3,7 @@ import { deleteBlog, getAll, update } from "../services/blogs";
 import Blog from "./Blog";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNotify } from "../contexts/NotificationContext";
+import { ListGroup } from "react-bootstrap";
 
 const BlogList = () => {
   const notify = useNotify();
@@ -16,7 +17,7 @@ const BlogList = () => {
       queryClient.setQueryData(["blogs"], blogs.filter(blog => blog.id !== deleteBlogId));
     },
     onError: (error) => {
-      notify({ message: error.response.data.error, className: "error" });
+      notify({ message: error.response.data.error, className: "danger" });
     }
   });
 
@@ -43,7 +44,7 @@ const BlogList = () => {
   const blogs = data;
 
   return (
-    <ul>
+    <ListGroup>
       {blogs.map((blog) => (
         <Blog
           key={blog.id}
@@ -51,7 +52,7 @@ const BlogList = () => {
           onDeleteBlog={onDeleteBlog}
         />
       ))}
-    </ul>
+    </ListGroup>
   )
 }
 

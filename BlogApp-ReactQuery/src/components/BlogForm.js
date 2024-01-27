@@ -25,7 +25,7 @@ const BlogForm = ({ postSubmission }) => {
       notify({ message: "Blog created successfully", className: "success" });
     },
     onError: (error) => {
-      notify({ message: error.response.data.error, className: "error" })
+      notify({ message: error.response.data.error, className: "danger" })
     }
   });
 

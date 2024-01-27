@@ -1,4 +1,5 @@
 import { useNotificationValue } from "../contexts/NotificationContext";
+import { Alert } from "react-bootstrap";
 
 const Notification = () => {
   const notification = useNotificationValue();
@@ -9,7 +10,7 @@ const Notification = () => {
 
   const { message, className } = notification;
 
-  return <div className={"feedback " + className}>{message}</div>;
+  return <Alert variant={className}>{message}</Alert>;
 };
 
 export default Notification;
